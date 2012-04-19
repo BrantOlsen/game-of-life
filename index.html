@@ -2,8 +2,10 @@
 <head>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+  <script src="game-of-life.js"></script>
 </head>
 <body>
+  
 <div class="background" style="z-index: 0; width: 100%; height: 100%; position: absolute; top: 0px; left: 0px;">
 <canvas id="theCanvas"></canvas>
 </div>
@@ -14,221 +16,19 @@
 $(document).ready(function() {
   $(window).resize();
 });
-  $(window).resize(function() {
-    var canvas = document.getElementById("theCanvas");
-// Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
-// since we are changing the canvas's width and height not its css width and height.
-canvas.width = $(".background").width();
-canvas.height = $(".background").height();
-var context = canvas.getContext("2d");
-//http://en.wikipedia.org/wiki/Conway's_Game_of_Life
-// Default to a gun, but allow the user to click on the background to affect it.
-board = new Object();
-board.context = context;
-board.cellSize = 25;
-board.rows = Math.floor(context.canvas.height / board.cellSize);
-board.columns = Math.floor(context.canvas.width / board.cellSize);
 
-  /*!
-   * Fill the given cell for the row and column with a black box.
-   *
-   * @param row The row of the cell.
-   * @column column The column of the cell.
-   */
-  board.fillCell = function(row, column) {
-    board.context.fillStyle = "black";
-    var x = column * board.cellSize;
-    var y = row * board.cellSize;
-    board.context.fillRect(x, y, board.cellSize, board.cellSize);
-  }
-
-  /*!
-   * Fill all cells that contain the value 1.
-   */
-  board.fillCells = function() {
-    for (var i = 0; i < board.rows; ++i)
-    {
-      for (var j = 0; j < board.columns; ++j)
-      {
-        if (board[i][j] == 1)
-        {
-            board.fillCell(i, j);
-        }
-      }
-    }
-  }
-
-  /*!
-   * Determine how many adjacent neighbors are alive for this cell.
-   *
-   * @param row The cell's row number.
-   * @param column The cell's column number.
-   *
-   * @return The number of adjacent alive rows.
-   */
-  board.getNeighbourCount = function(row, column)
+$(window).resize(function() {
+  var canvas = document.getElementById("theCanvas");
+  // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
+  // since we are changing the canvas's width and height not its css width and height.
+  canvas.width = $(".background").width();
+  canvas.height = $(".background").height();
+  var context = canvas.getContext("2d");
+  
+  if (board == null)
   {
-    var count = 0;
-    var columnToRight = column - 1;
-    var columnToLeft = column + 1;
-    var rowAbove = row - 1;
-    var rowBelow = row + 1;
-
-   if (columnToRight < board.columns)
-   {
-     count = count + board[row][columnToRight];
-   }
-   if (columnToLeft >= 0)
-   {
-     count = count + board[row][columnToLeft];
-   }
-    // Count the rows above us that are alive.
-    if (rowAbove >= 0)
-    {
-      count = count + board[rowAbove][column];
-      if (columnToRight < board.columns)
-      {
-          count = count + board[rowAbove][columnToRight];
-      }
-      if (columnToLeft >= 0)
-      {
-          count = count + board[rowAbove][columnToLeft];
-      }
-    }
-    // Count the cells below us that are alive.
-    if (rowBelow < board.rows)
-    {
-      count = count + board[rowBelow][column];
-      if (columnToRight < board.columns)
-      {
-          count = count + board[rowBelow][columnToRight];
-      }
-      if (columnToLeft >= 0)
-      {
-          count = count + board[rowBelow][columnToLeft];
-      }
-    }
-
-    return count;
+    board = new GameOfLife(context);
   }
-
-  /*!
-   * Determine which cells live and die.
-   */
-  board.determineNextState = function()
-  {
-    for (var i = 0; i < board.rows; ++i)
-    {
-      for (var j = 0; j < board.columns; ++j)
-      {
-        var numberOfNeighbours = board.getNeighbourCount(i, j);
-        // Rule 4 of Life.
-        if (board[i][j] == 0 && numberOfNeighbours  == 3)
-        {
-            board.nextState[i][j] = 1;
-        }
-        else if (board[i][j] == 1)
-        {
-            // Rule 1 and Rule 3 of Life.
-            if (numberOfNeighbours < 2 || numberOfNeighbours > 3)
-            {
-               board.nextState[i][j] = 0;
-            }
-            // Rule 2 of Life.
-            else
-            {
-               board.nextState[i][j] = 1;
-            }
-       }
-     }
-    }
-  }
-
-  /*!
-   * Copy all values in nextState to the board.
-   */
-  board.moveToNextState = function()
-  {
-    for (var i = 0; i < board.rows; ++i)
-    {
-      for (var j = 0; j < board.columns; ++j)
-      {
-          board[i][j] = board.nextState[i][j];
-      }
-    }
-  }
-
-  /*!
-   * Clear the canvas of everything.
-   */
-  board.clear = function()
-  {
-    board.context.clearRect(0, 0, board.context.canvas.width, board.context.canvas.height);
-  }
-
-  /*!
-   * Draw the board. Then update it for the next call to update.
-   */
-  board.update = function()
-  {
-    board.clear();
-    board.fillCells();
-    board.determineNextState();
-    board.moveToNextState();
-  }
-
-  // Init the board and its next state with blank values.
-  board.nextState = new Array(board.rows);
-  for (var i = 0; i < board.rows; ++i)
-  {
-    board[i] = new Array(board.columns);
-    board.nextState[i] = new Array(board.columns);
-    for (var j = 0; j < board.columns; ++j)
-    {
-        board[i][j] = 0;
-        board.nextState[i][j] = 0;
-    }
-  }
-
-  // Semi-Glider Gun.
-  try
-  {
-      var rowStart = 6;
-      var colStart = 6;
-      board[rowStart+6][colStart+2] = 1;
-      board[rowStart+6][colStart+3] = 1;
-      board[rowStart+7][colStart+2] = 1;
-      board[rowStart+7][colStart+3] = 1;
-      board[rowStart+6][colStart+12] = 1;
-      board[rowStart+7][colStart+12] = 1;
-      board[rowStart+8][colStart+12] = 1;
-      board[rowStart+5][colStart+13] = 1;
-      board[rowStart+9][colStart+13] = 1;
-      board[rowStart+4][colStart+14] = 1;
-      board[rowStart+10][colStart+14] = 1;
-      board[rowStart+4][colStart+15] = 1;
-      board[rowStart+10][colStart+15] = 1;
-      board[rowStart+7][colStart+16] = 1;
-      board[rowStart+5][colStart+17] = 1;
-      board[rowStart+6][colStart+18] = 1;
-      board[rowStart+7][colStart+18] = 1;
-      board[rowStart+8][colStart+18] = 1;
-      board[rowStart+7][colStart+19] = 1;
-
-      // Init a glider.
-      board[rowStart*3+3][colStart*5+2] = 1;
-      board[rowStart*3+4][colStart*5+3] = 1;
-      board[rowStart*3+4][colStart*5+4] = 1;
-      board[rowStart*3+3][colStart*5+4] = 1;
-      board[rowStart*3+2][colStart*5+4] = 1;
-  }
-  catch (err)
-  {
-      // If an error is caught then the board is not big enough for the
-      // shape I am making. So let thins go on with whatever was initialized.
-  }
-
-  setInterval("board.update()", 500);
 });
 
 </script>
