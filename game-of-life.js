@@ -1,10 +1,14 @@
 //http://en.wikipedia.org/wiki/Conway's_Game_of_Life
-function GameOfLife(context, s)
+function GameOfLife(context, settings)
 {
+  // Force settings to be an object.
+  settings = settings || {};
+  // Save the settings for use everywhere.
+  this.settings = settings;
+    
   this.board = new Object();
   this.board.context = context;
-  this.board.cellSize = 25;//s.cellSize;
-  this.settings = s;
+  this.board.cellSize = 25;
   if (this.settings.cellSize)
   {
     this.board.cellSize = this.settings.cellSize;   
