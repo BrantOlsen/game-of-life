@@ -275,5 +275,10 @@ function GameOfLife(context, settings)
     u.param1.update(); 
   }
   u.param1 = this;
-  setInterval(u, 500);
+  var refreshRate = 500;
+  if (this.settings.refreshRate)
+  {
+    refreshRate = this.settings.refreshRate;
+  }
+  setInterval(u, refreshRate);
 }
