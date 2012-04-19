@@ -29,6 +29,13 @@
     {
       board = new GameOfLife(context);
     }
+    
+    var rowStart = 6;
+    var colStart = 6;
+    board.createGliderGun(rowStart, colStart);
+
+    // Init a glider.
+    board.createGlider(rowStart*4, colStart*4);
   });
 
 </script>

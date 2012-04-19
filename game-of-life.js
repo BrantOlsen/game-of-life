@@ -4,9 +4,45 @@ function GameOfLife(context, s)
   this.board = new Object();
   this.board.context = context;
   this.board.cellSize = 25;//s.cellSize;
-  this.board.rows = Math.floor(context.canvas.height / this.board.cellSize);
-  this.board.columns = Math.floor(context.canvas.width / this.board.cellSize);
-
+  this.settings = s;
+  if (this.settings.cellSize)
+  {
+    this.board.cellSize = this.settings.cellSize;   
+  }
+  
+  /*!
+   * Determine the number of rows and columns of the board based on the size
+   * of the canvas and cellSize.
+   * 
+   * Please note that this will reset boards state.
+   */
+  this.resize = function() 
+  {
+    this.board.rows = Math.floor(context.canvas.height / this.board.cellSize);
+    if (this.settings.maxRows && this.settings.maxRows > this.board.rows)
+    {
+      this.board.rows = this.settings.maxRows;
+    }
+    this.board.columns = Math.floor(context.canvas.width / this.board.cellSize);
+    if (this.settings.maxColumns && this.settings.maxColumns > this.board.columns)
+    {
+      this.board.columns = this.settings.maxColumns;
+    }
+    
+    // Init the this.board and its next state with blank values.
+    this.board.nextState = new Array(this.board.rows);
+    for (var i = 0; i < this.board.rows; ++i)
+    {
+      this.board[i] = new Array(this.board.columns);
+      this.board.nextState[i] = new Array(this.board.columns);
+      for (var j = 0; j < this.board.columns; ++j)
+      {
+        this.board[i][j] = 0;
+        this.board.nextState[i][j] = 0;
+      }
+    }
+  }
+  
   /*!
    * Fill the given cell for the row and column with a black box.
    *
@@ -155,19 +191,6 @@ function GameOfLife(context, s)
     this.moveToNextState();
   }
 
-  // Init the this.board and its next state with blank values.
-  this.board.nextState = new Array(this.board.rows);
-  for (var i = 0; i < this.board.rows; ++i)
-  {
-    this.board[i] = new Array(this.board.columns);
-    this.board.nextState[i] = new Array(this.board.columns);
-    for (var j = 0; j < this.board.columns; ++j)
-    {
-      this.board[i][j] = 0;
-      this.board.nextState[i][j] = 0;
-    }
-  }
-
   /**
    * Create a small glider at the given coords.
    * 
@@ -237,13 +260,9 @@ function GameOfLife(context, s)
 
     return true;
   }
-  
-  var rowStart = 6;
-  var colStart = 6;
-  this.createGliderGun(rowStart, colStart);
-
-  // Init a glider.
-  this.createGlider(rowStart*4, colStart*4);
+      
+  // Do an initial resize.
+  this.resize();
   
   // Create a functon here to allow us to get the correct scope in the call
   // to setInterval.
@@ -253,9 +272,4 @@ function GameOfLife(context, s)
   }
   u.param1 = this;
   setInterval(u, 500);
-}
-
-function updateGOL(gameOfLife)
-{
-  gameOfLife.update();
 }
