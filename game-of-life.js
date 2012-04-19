@@ -1,9 +1,9 @@
 //http://en.wikipedia.org/wiki/Conway's_Game_of_Life
-function GameOfLife(context)
+function GameOfLife(context, s)
 {
   this.board = new Object();
   this.board.context = context;
-  this.board.cellSize = 25;
+  this.board.cellSize = 25;//s.cellSize;
   this.board.rows = Math.floor(context.canvas.height / this.board.cellSize);
   this.board.columns = Math.floor(context.canvas.width / this.board.cellSize);
 
@@ -168,44 +168,83 @@ function GameOfLife(context)
     }
   }
 
-  // Semi-Glider Gun.
-  try
+  /**
+   * Create a small glider at the given coords.
+   * 
+   * @param row The row to start the glider at.
+   * @param column The column to start the glider at.
+   * 
+   * @return True if the glider was created.
+   */
+  this.createGlider = function(row, column)
   {
-    var rowStart = 6;
-    var colStart = 6;
-    this.board[rowStart+6][colStart+2] = 1;
-    this.board[rowStart+6][colStart+3] = 1;
-    this.board[rowStart+7][colStart+2] = 1;
-    this.board[rowStart+7][colStart+3] = 1;
-    this.board[rowStart+6][colStart+12] = 1;
-    this.board[rowStart+7][colStart+12] = 1;
-    this.board[rowStart+8][colStart+12] = 1;
-    this.board[rowStart+5][colStart+13] = 1;
-    this.board[rowStart+9][colStart+13] = 1;
-    this.board[rowStart+4][colStart+14] = 1;
-    this.board[rowStart+10][colStart+14] = 1;
-    this.board[rowStart+4][colStart+15] = 1;
-    this.board[rowStart+10][colStart+15] = 1;
-    this.board[rowStart+7][colStart+16] = 1;
-    this.board[rowStart+5][colStart+17] = 1;
-    this.board[rowStart+6][colStart+18] = 1;
-    this.board[rowStart+7][colStart+18] = 1;
-    this.board[rowStart+8][colStart+18] = 1;
-    this.board[rowStart+7][colStart+19] = 1;
-
-    // Init a glider.
-    this.board[rowStart*3+3][colStart*5+2] = 1;
-    this.board[rowStart*3+4][colStart*5+3] = 1;
-    this.board[rowStart*3+4][colStart*5+4] = 1;
-    this.board[rowStart*3+3][colStart*5+4] = 1;
-    this.board[rowStart*3+2][colStart*5+4] = 1;
+    // Check to make sure the glider will fit.
+    if (row+2 > this.board.rows || 
+        row < 0 ||
+        column+2 > this.board.columns ||
+        column < 0)
+    {
+      return false;
+    }
+    
+    this.board[row+1][column] = 1;
+    this.board[row+2][column+1] = 1;
+    this.board[row+2][column+2] = 1;
+    this.board[row+1][column+2] = 1;
+    this.board[row][column+2] = 1;
+    
+    return true;
   }
-  catch (err)
+  
+  /*!
+   * Create a small glider gun at the given coords.
+   * 
+   * @param row The row to start the gun at.
+   * @param column The column to start the gun at.
+   * 
+   * @return True if the gun was created.
+   */
+  this.createGliderGun = function(row, column)
   {
-  // If an error is caught then the this.board is not big enough for the
-  // shape I am making. So let thins go on with whatever was initialized.
-  }
+    // Check to make sure the glider will fit.
+    if (row+6 > this.board.rows || 
+        row < 0 ||
+        column+17 > this.board.columns ||
+        column < 0)
+    {
+      return false;
+    }
+    
+    this.board[row+2][column] = 1;
+    this.board[row+2][column+1] = 1;
+    this.board[row+3][column] = 1;
+    this.board[row+3][column+1] = 1;
+    this.board[row+2][column+10] = 1;
+    this.board[row+3][column+10] = 1;
+    this.board[row+4][column+10] = 1;
+    this.board[row+1][column+11] = 1;
+    this.board[row+5][column+11] = 1;
+    this.board[row][column+12] = 1;
+    this.board[row+6][column+12] = 1;
+    this.board[row][column+13] = 1;
+    this.board[row+6][column+13] = 1;
+    this.board[row+3][column+14] = 1;
+    this.board[row+1][column+15] = 1;
+    this.board[row+2][column+16] = 1;
+    this.board[row+3][column+16] = 1;
+    this.board[row+4][column+16] = 1;
+    this.board[row+3][column+17] = 1;
 
+    return true;
+  }
+  
+  var rowStart = 6;
+  var colStart = 6;
+  this.createGliderGun(rowStart, colStart);
+
+  // Init a glider.
+  this.createGlider(rowStart*4, colStart*4);
+  
   // Create a functon here to allow us to get the correct scope in the call
   // to setInterval.
   var u = function updateGOL()

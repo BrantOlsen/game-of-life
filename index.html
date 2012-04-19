@@ -13,23 +13,23 @@
 <script>
   var board = null;
   
-$(document).ready(function() {
-  $(window).resize();
-});
+  $(document).ready(function() {
+    $(window).resize();
+  });
 
-$(window).resize(function() {
-  var canvas = document.getElementById("theCanvas");
-  // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
-  // since we are changing the canvas's width and height not its css width and height.
-  canvas.width = $(".background").width();
-  canvas.height = $(".background").height();
-  var context = canvas.getContext("2d");
-  
-  if (board == null)
-  {
-    board = new GameOfLife(context);
-  }
-});
+  $(window).resize(function() {
+    var canvas = document.getElementById("theCanvas");
+    // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
+    // since we are changing the canvas's width and height not its css width and height.
+    canvas.width = $(".background").width();
+    canvas.height = $(".background").height();
+    var context = canvas.getContext("2d");
+
+    if (board == null)
+    {
+      board = new GameOfLife(context);
+    }
+  });
 
 </script>
 
