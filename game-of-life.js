@@ -1,4 +1,8 @@
-//http://en.wikipedia.org/wiki/Conway's_Game_of_Life
+/*!
+ * Javascript implementation of Conway's Game of Life.
+ * See http://en.wikipedia.org/wiki/Conway's_Game_of_Life for more 
+ * information.
+ */
 function GameOfLife(context, settings)
 {
   // Force settings to be an object.
@@ -203,6 +207,54 @@ function GameOfLife(context, settings)
     this.moveToNextState();
   }
 
+  /*!
+   * Start the setInterval to update the game board periodically based
+   * on the upateInterval given by the user, or half a second if none
+   * was given.
+   */
+  this.start = function() 
+  {
+    // Create a functon here to allow us to get the correct scope in the call
+    // to setInterval.
+    var u = function updateGOL()
+    {
+      u.param1.update(); 
+    }
+    u.param1 = this;
+    
+    var updateInterval = 500;
+    if (this.settings.updateInterval)
+    {
+      updateInterval = this.settings.updateInterval;
+    }
+    this.intervalID = setInterval(u, updateInterval);
+  }
+  
+  /*!
+   * Clear the setInterval used in the start function. This will halt the board
+   * updating.
+   */
+  this.stop = function () 
+  {
+    clearInterval(this.intervalID);
+    this.intervalID = undefined;
+  }
+  
+  /*!
+   * Toggle between start and stop based on whether or not we
+   * know the interval id.
+   */
+  this.toggle = function () {
+    if (this.intervalID)
+    {
+      this.stop();
+    }
+    else
+    {
+      this.start();
+    }
+  }
+
   /**
    * Create a small glider at the given coords.
    * 
@@ -275,18 +327,4 @@ function GameOfLife(context, settings)
       
   // Do an initial resize.
   this.resize();
-  
-  // Create a functon here to allow us to get the correct scope in the call
-  // to setInterval.
-  var u = function updateGOL()
-  {
-    u.param1.update(); 
-  }
-  u.param1 = this;
-  var updateInterval = 500;
-  if (this.settings.updateInterval)
-  {
-    updateInterval = this.settings.updateInterval;
-  }
-  setInterval(u, updateInterval);
 }
