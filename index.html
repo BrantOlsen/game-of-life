@@ -11,6 +11,11 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="https://raw.github.com/BrantOlsen/game-of-life/master/game-of-life.js"></script>
     <title>Game-of-life</title>
+    <style>
+      code {
+        background: #EEE;
+      }
+    </style>
   </head>
 
   <body>
@@ -38,6 +43,34 @@
     <div class="background">
       <canvas id="theCanvas"></canvas>
     </div>
+      <div class="example">
+        <section class="inner">
+          The above was created with the following:
+        </section>
+        <pre>
+           <code>
+            var canvas = document.getElementById("theCanvas");
+            // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
+            // since we are changing the canvas's width and height not its css width and height.
+            canvas.width = $(".background").width();
+            canvas.height = $(".background").height();
+            var context = canvas.getContext("2d");
+
+            if (board == null)
+            {
+              board = new GameOfLife(context, {color: "blue"});
+            }
+
+            var rowStart = 6;
+            var colStart = 6;
+            board.createGliderGun(rowStart, colStart);
+
+            // Init a glider.
+            board.createGlider(rowStart*4, colStart*4);
+            board.start();
+          </code>
+        </pre>
+      </div>
     </div>
 
     <!-- FOOTER  -->
@@ -78,6 +111,7 @@
         gol.createGlider(rowStart*2, colStart*2);
         gol.createGlider(rowStart*2, colStart/2);
         gol.fillCells();
+        gol.start();
       });
     </script>
   </body>
