@@ -54,7 +54,15 @@ function GameOfLife(context, settings)
    * @column column The column of the cell.
    */
   this.fillCell = function(row, column) {
-    this.board.context.fillStyle = "black";
+    if (this.settings.color)
+    {
+      this.board.context.fillStyle = this.settings.color;
+    }
+    else
+    {
+      this.board.context.fillStyle = "black";
+    }
+   
     var x = column * this.board.cellSize;
     var y = row * this.board.cellSize;
     this.board.context.fillRect(x, y, this.board.cellSize, this.board.cellSize);
