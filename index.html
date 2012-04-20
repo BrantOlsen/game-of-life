@@ -7,7 +7,9 @@
     <meta name="description" content="Game-of-life : The Game of Life" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script src="https://raw.github.com/BrantOlsen/game-of-life/master/game-of-life.js"></script>
     <title>Game-of-life</title>
   </head>
 
@@ -33,6 +35,9 @@
       <section id="main_content" class="inner">
         <p>A javascript implementation of the Game of Life, <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">http://en.wikipedia.org/wiki/Conway's_Game_of_Life</a>.</p>
       </section>
+    <div class="background">
+      <canvas id="theCanvas"></canvas>
+    </div>
     </div>
 
     <!-- FOOTER  -->
@@ -43,7 +48,37 @@
       </footer>
     </div>
 
-    
+    <script>
+       // Global scope it so I can always find it.
+      var gol = null;
 
+      // Need to initialize the Game of Life on load.
+      $(document).ready(function() {
+        $(window).resize();
+      });
+
+      // Resize events may make the game ugly so adjust each time someone
+      // changes the window's size.
+      $(window).resize(function() {
+        var canvas = document.getElementById("theCanvas");
+        // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
+        // since we are changing the canvas's width and height not its css width and height.
+        canvas.width = $(".background").width();
+        canvas.height = $(".background").height();
+        var context = canvas.getContext("2d");
+
+        if (gol == null)
+        {
+          gol = new GameOfLife(context, {cellSize: 10, updateInterval: 1000});
+        }
+        
+        var rowStart = Math.floor(gol.board.rows * .3);
+        var colStart = Math.floor(gol.board.columns * .4);
+        gol.createGliderGun(rowStart, colStart);
+        gol.createGlider(rowStart*2, colStart*2);
+        gol.createGlider(rowStart*2, colStart/2);
+        gol.fillCells();
+      });
+    </script>
   </body>
 </html>
