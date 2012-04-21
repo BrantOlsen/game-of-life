@@ -1,4 +1,4 @@
-/*!
+/**
  * Javascript implementation of Conway's Game of Life.
  * See http://en.wikipedia.org/wiki/Conway's_Game_of_Life for more 
  * information.
@@ -18,7 +18,7 @@ function GameOfLife(context, settings)
     this.board.cellSize = this.settings.cellSize;   
   }
   
-  /*!
+  /**
    * Determine the number of rows and columns of the board based on the size
    * of the canvas and cellSize.
    * 
@@ -51,7 +51,7 @@ function GameOfLife(context, settings)
     }
   }
   
-  /*!
+  /**
    * Fill the given cell for the row and column with a black box.
    *
    * @param row The row of the cell.
@@ -72,7 +72,7 @@ function GameOfLife(context, settings)
     this.board.context.fillRect(x, y, this.board.cellSize, this.board.cellSize);
   }
 
-  /*!
+  /**
    * Fill all cells that contain the value 1.
    */
   this.fillCells = function() {
@@ -88,7 +88,7 @@ function GameOfLife(context, settings)
     }
   }
 
-  /*!
+  /**
    * Determine how many adjacent neighbors are alive for this cell.
    *
    * @param row The cell's row number.
@@ -142,7 +142,7 @@ function GameOfLife(context, settings)
     return count;
   }
 
-  /*!
+  /**
    * Determine which cells live and die.
    */
   this.determineNextState = function()
@@ -174,7 +174,7 @@ function GameOfLife(context, settings)
     }
   }
 
-  /*!
+  /**
    * Copy all values in nextState to the this.board.
    */
   this.moveToNextState = function()
@@ -188,7 +188,7 @@ function GameOfLife(context, settings)
     }
   }
 
-  /*!
+  /**
    * Clear the canvas of everything.
    */
   this.clear = function()
@@ -196,7 +196,7 @@ function GameOfLife(context, settings)
     this.board.context.clearRect(0, 0, this.board.context.canvas.width, this.board.context.canvas.height);
   }
 
-  /*!
+  /**
    * Draw the this.board. Then update it for the next call to update.
    */
   this.update = function()
@@ -207,7 +207,7 @@ function GameOfLife(context, settings)
     this.moveToNextState();
   }
 
-  /*!
+  /**
    * Start the setInterval to update the game board periodically based
    * on the upateInterval given by the user, or half a second if none
    * was given.
@@ -230,7 +230,7 @@ function GameOfLife(context, settings)
     this.intervalID = setInterval(u, updateInterval);
   }
   
-  /*!
+  /**
    * Clear the setInterval used in the start function. This will halt the board
    * updating.
    */
@@ -240,7 +240,7 @@ function GameOfLife(context, settings)
     this.intervalID = undefined;
   }
   
-  /*!
+  /**
    * Toggle between start and stop based on whether or not we
    * know the interval id.
    */
@@ -283,7 +283,7 @@ function GameOfLife(context, settings)
     return true;
   }
   
-  /*!
+  /**
    * Create a small glider gun at the given coords.
    * 
    * @param row The row to start the gun at.
