@@ -244,7 +244,8 @@ function GameOfLife(context, settings)
    * Toggle between start and stop based on whether or not we
    * know the interval id.
    */
-  this.toggle = function () {
+  this.toggle = function ()
+  {
     if (this.intervalID)
     {
       this.stop();
@@ -327,4 +328,16 @@ function GameOfLife(context, settings)
       
   // Do an initial resize.
   this.resize();
+}
+
+GameOfLife.prototype.fillByClick = function(clickEvent)
+{
+  var x = clickEvent.clientX;
+  var y = clickEvent.clientY;
+  
+  var col = Math.floor(x / this.board.cellSize);
+  var row = Math.floor(y / this.board.cellSize);
+  
+  this.board[row][col] = 1;
+  this.fillCells();
 }
