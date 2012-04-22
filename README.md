@@ -18,6 +18,7 @@
         if (gol == null)
         {
           gol = new GameOfLife(context, {cellSize: 10, updateInterval: 1000});
+	  gol.start();
         }
         
         var rowStart = Math.floor(gol.board.rows * .3);
