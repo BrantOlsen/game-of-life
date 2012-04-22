@@ -328,3 +328,21 @@ GameOfLife.prototype.createGliderGun = function(row, column)
 
   return true;
 }
+
+/**
+ * Add a cell based on the x and y coordinates of the click. This
+ * will also call fillCells.
+ * 
+ * @param clickEvent The click event to obtain x and y coords from.
+ */
+GameOfLife.prototype.fillByClick = function(clickEvent)
+{
+  var x = clickEvent.clientX;
+  var y = clickEvent.clientY;
+  
+  var col = Math.floor(x / this.board.cellSize);
+  var row = Math.floor(y / this.board.cellSize);
+  
+  this.board[row][col] = 1;
+  this.fillCells();
+}

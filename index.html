@@ -37,8 +37,9 @@
     // Init a glider.
     board.createGlider(rowStart*4, colStart*4);
     
-    $("#theCanvas").click(function(){
+    $("#theCanvas").click(function(event){
       board.toggle();
+      board.fillByClick(event);
     });
   });
 
