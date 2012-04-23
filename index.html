@@ -27,7 +27,9 @@
 
     if (board == null)
     {
-      board = new GameOfLife(context, {color: "blue", updateInterval: 10});
+      board = new GameOfLife(context, {color: "blue", 
+                                       updateInterval: 10,
+                                       drawLines: true});
     }
     
     var rowStart = 6;

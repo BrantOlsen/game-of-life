@@ -17,6 +17,7 @@ function GameOfLife(context, settings)
   {
     this.board.cellSize = this.settings.cellSize;   
   }
+  this.settings.drawLines = this.settings.drawLines || false;
   
   // Do an initial resize.
   this.resize();
@@ -55,6 +56,16 @@ GameOfLife.prototype.resize = function()
   }
 }
   
+GameOfLife.prototype.drawLine = function(xStart, yStart, xEnd, yEnd)
+{
+  this.board.context.fillStyle = 'orange';
+  this.board.context.beginPath();
+  this.board.context.moveTo(xStart, yStart);
+  this.board.context.lineTo(xEnd, yEnd);
+  this.board.context.closePath();
+  this.board.context.stroke();
+}
+  
 /**
   * Fill the given cell for the row and column with a black box.
   *
@@ -84,11 +95,19 @@ GameOfLife.prototype.fillCells = function()
 {
   for (var i = 0; i < this.board.rows; ++i)
   {
+    if (this.settings.drawLines)
+    {
+      this.drawLine(0, i*this.board.cellSize, this.board.context.canvas.width, i*this.board.cellSize);
+    }
     for (var j = 0; j < this.board.columns; ++j)
     {
       if (this.board[i][j] == 1)
       {
         this.fillCell(i, j);
+      }
+      if (this.settings.drawLines && i == 0)
+      {
+        this.drawLine(j*this.board.cellSize, 0, j*this.board.cellSize, this.board.context.canvas.height);
       }
     }
   }
