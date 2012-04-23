@@ -21,6 +21,11 @@ function GameOfLife(context, settings)
   
   // Do an initial resize.
   this.resize();
+  
+  if (this.settings.debug) 
+  {
+    console.log("Created a new GameOfLife object.");
+  }
 }
  
 /**
@@ -53,6 +58,11 @@ GameOfLife.prototype.resize = function()
       this.board[i][j] = 0;
       this.board.nextState[i][j] = 0;
     }
+  }
+  
+  if (this.settings.debug) 
+  {
+    console.log("Resized the board.");
   }
 }
   
@@ -110,6 +120,11 @@ GameOfLife.prototype.fillCells = function()
         this.drawLine(j*this.board.cellSize, 0, j*this.board.cellSize, this.board.context.canvas.height);
       }
     }
+  }
+  
+  if (this.settings.debug) 
+  {
+    console.log("fillCells.");
   }
 }
 
@@ -219,6 +234,11 @@ GameOfLife.prototype.moveToNextState = function()
 GameOfLife.prototype.clear = function()
 {
   this.board.context.clearRect(0, 0, this.board.context.canvas.width, this.board.context.canvas.height);
+  
+  if (this.settings.debug) 
+  {
+    console.log("Clear the board.");
+  }
 }
 
 /**
@@ -230,6 +250,11 @@ GameOfLife.prototype.update = function()
   this.fillCells();
   this.determineNextState();
   this.moveToNextState();
+  
+  if (this.settings.debug) 
+  {
+    console.log("updating the game of life.");
+  }
 }
 
 /**
@@ -253,6 +278,11 @@ GameOfLife.prototype.start = function()
     updateInterval = this.settings.updateInterval;
   }
   this.intervalID = setInterval(u, updateInterval);
+  
+  if (this.settings.debug) 
+  {
+    console.log("Start the game of life.");
+  }
 }
   
 /**
@@ -263,6 +293,11 @@ GameOfLife.prototype.stop = function ()
 {
   clearInterval(this.intervalID);
   this.intervalID = undefined;
+  
+  if (this.settings.debug) 
+  {
+    console.log("Stop the game of life.");
+  }
 }
   
 /**
@@ -304,6 +339,11 @@ GameOfLife.prototype.createGlider = function(row, column)
   this.board[row+2][column+2] = 1;
   this.board[row+1][column+2] = 1;
   this.board[row][column+2] = 1;
+    
+  if (this.settings.debug) 
+  {
+    console.log("Create a glider at " + row + ", " + column);
+  }
     
   return true;
 }
@@ -371,6 +411,11 @@ GameOfLife.prototype.createGliderGun = function(row, column)
   this.board[row+3][column+34] = 1;
   this.board[row+3][column+35] = 1;
 
+  if (this.settings.debug) 
+  {
+    console.log("Create glider gun at " + row + ", " + column);
+  }
+
   return true;
 }
 
@@ -390,4 +435,9 @@ GameOfLife.prototype.fillByClick = function(clickEvent)
   
   this.board[row][col] = 1;
   this.fillCells();
+  
+  if (this.settings.debug) 
+  {
+    console.log("Fill by click on " + x + ", " + y);
+  }
 }

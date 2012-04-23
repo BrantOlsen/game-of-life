@@ -28,17 +28,17 @@
     if (board == null)
     {
       board = new GameOfLife(context, {color: "blue", 
-                                       updateInterval: 10,
-                                       drawLines: true});
+                                       updateInterval: 50,
+                                       drawLines: true,
+                                       debug: true});
+      board.toggle();
     }
     
-    var rowStart = 6;
-    var colStart = 6;
+    var rowStart = 0;
+    var colStart = 0;
+    board.resize();
     board.createGliderGun(rowStart, colStart);
-
-    // Init a glider.
-    board.createGlider(rowStart*4, colStart*4);
-    
+   
     $("#theCanvas").click(function(event){
       board.toggle();
       board.fillByClick(event);

@@ -1,31 +1,34 @@
-      var gol = null;
+  var board = null;
+  
+  $(document).ready(function() {
+    $(window).resize();
+  });
 
-      // Need to initialize the Game of Life on load.
-      $(document).ready(function() {
-        $(window).resize();
-      });
+  $(window).resize(function() {
+    var canvas = document.getElementById("theCanvas");
+    // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
+    // since we are changing the canvas's width and height not its css width and height.
+    canvas.width = $(".background").width();
+    canvas.height = $(".background").height();
+    var context = canvas.getContext("2d");
 
-      // Resize events may make the game ugly so adjust each time someone
-      // changes the window's size.
-      $(window).resize(function() {
-        var canvas = document.getElementById("theCanvas");
-        // Re-size the canvas to fit the whole screen. Do not use the JQuery selector here
-        // since we are changing the canvas's width and height not its css width and height.
-        canvas.width = $(".background").width();
-        canvas.height = $(".background").height();
-        var context = canvas.getContext("2d");
-
-        if (gol == null)
-        {
-          gol = new GameOfLife(context, {cellSize: 10, updateInterval: 1000});
-	  gol.start();
-        }
-        
-        var rowStart = Math.floor(gol.board.rows * .3);
-        var colStart = Math.floor(gol.board.columns * .4);
-        gol.createGliderGun(rowStart, colStart);
-        gol.createGlider(rowStart*2, colStart*2);
-        gol.createGlider(rowStart*2, colStart/2);
-        gol.fillCells();
-      });
+    if (board == null)
+    {
+      board = new GameOfLife(context, {color: "blue", 
+                                       updateInterval: 50,
+                                       drawLines: true,
+                                       debug: true});
+      board.toggle();
+    }
+    
+    var rowStart = 0;
+    var colStart = 0;
+    board.resize();
+    board.createGliderGun(rowStart, colStart);
+   
+    $("#theCanvas").click(function(event){
+      board.toggle();
+      board.fillByClick(event);
+    });
+  });
 
