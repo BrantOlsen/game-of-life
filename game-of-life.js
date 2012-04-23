@@ -61,7 +61,8 @@ GameOfLife.prototype.resize = function()
   * @param row The row of the cell.
   * @column column The column of the cell.
   */
-GameOfLife.prototype.fillCell = function(row, column) {
+GameOfLife.prototype.fillCell = function(row, column) 
+{
   if (this.settings.color)
   {
     this.board.context.fillStyle = this.settings.color;
@@ -79,7 +80,8 @@ GameOfLife.prototype.fillCell = function(row, column) {
 /**
   * Fill all cells that contain the value 1.
   */
-GameOfLife.prototype.fillCells = function() {
+GameOfLife.prototype.fillCells = function() 
+{
   for (var i = 0; i < this.board.rows; ++i)
   {
     for (var j = 0; j < this.board.columns; ++j)
