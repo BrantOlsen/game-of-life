@@ -300,33 +300,57 @@ GameOfLife.prototype.createGlider = function(row, column)
 GameOfLife.prototype.createGliderGun = function(row, column)
 {
   // Check to make sure the glider will fit.
-  if (row+6 > this.board.rows || 
+  if (row+8 > this.board.rows || 
     row < 0 ||
-    column+17 > this.board.columns ||
+    column+35 > this.board.columns ||
     column < 0)
     {
     return false;
   }
-    
-  this.board[row+2][column] = 1;
-  this.board[row+2][column+1] = 1;
-  this.board[row+3][column] = 1;
-  this.board[row+3][column+1] = 1;
-  this.board[row+2][column+10] = 1;
-  this.board[row+3][column+10] = 1;
+  
+  // Left square.  
+  this.board[row+4][column] = 1;
+  this.board[row+4][column+1] = 1;
+  this.board[row+5][column] = 1;
+  this.board[row+5][column+1] = 1;
+  
+  // Middle almost circle.
   this.board[row+4][column+10] = 1;
-  this.board[row+1][column+11] = 1;
-  this.board[row+5][column+11] = 1;
-  this.board[row][column+12] = 1;
-  this.board[row+6][column+12] = 1;
-  this.board[row][column+13] = 1;
-  this.board[row+6][column+13] = 1;
-  this.board[row+3][column+14] = 1;
-  this.board[row+1][column+15] = 1;
-  this.board[row+2][column+16] = 1;
-  this.board[row+3][column+16] = 1;
+  this.board[row+5][column+10] = 1;
+  this.board[row+6][column+10] = 1;
+  this.board[row+3][column+11] = 1;
+  this.board[row+7][column+11] = 1;
+  this.board[row+2][column+12] = 1;
+  this.board[row+8][column+12] = 1;
+  this.board[row+2][column+13] = 1;
+  this.board[row+8][column+13] = 1;
+  this.board[row+5][column+14] = 1;
+  this.board[row+3][column+15] = 1;
   this.board[row+4][column+16] = 1;
-  this.board[row+3][column+17] = 1;
+  this.board[row+5][column+16] = 1;
+  this.board[row+6][column+16] = 1;
+  this.board[row+7][column+15] = 1;
+  this.board[row+5][column+17] = 1;
+  
+  // Arrow
+  this.board[row+2][column+20] = 1;
+  this.board[row+3][column+20] = 1;
+  this.board[row+4][column+20] = 1;
+  this.board[row+2][column+21] = 1;
+  this.board[row+3][column+21] = 1;
+  this.board[row+4][column+21] = 1;
+  this.board[row+1][column+22] = 1;
+  this.board[row+5][column+22] = 1;
+  this.board[row][column+24] = 1;
+  this.board[row+1][column+24] = 1;
+  this.board[row+5][column+24] = 1;
+  this.board[row+6][column+24] = 1;
+ 
+  // Right square
+  this.board[row+2][column+34] = 1;
+  this.board[row+2][column+35] = 1;
+  this.board[row+3][column+34] = 1;
+  this.board[row+3][column+35] = 1;
 
   return true;
 }
