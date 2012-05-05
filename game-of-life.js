@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Javascript implementation of Conway's Game of Life.
  * See http://en.wikipedia.org/wiki/Conway's_Game_of_Life for more 
@@ -10,7 +12,7 @@ function GameOfLife(context, settings)
   // Save the settings for use everywhere.
   this.settings = settings;
     
-  this.board = new Object();
+  this.board = {};
   this.board.context = context;
   this.board.cellSize = 25;
   if (this.settings.cellSize)
@@ -24,7 +26,10 @@ function GameOfLife(context, settings)
   
   if (this.settings.debug) 
   {
-    console.log("Created a new GameOfLife object.");
+    if (console)
+    {
+      console.log("Created a new GameOfLife object.");
+    }
   }
 }
  
