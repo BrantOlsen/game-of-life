@@ -30,15 +30,15 @@
       board = new GameOfLife(context, {color: "blue", 
                                        updateInterval: 50,
                                        drawLines: true,
-                                       debug: true});
+                                       debug: false});
       board.toggle();
     }
     
     var rowStart = 0;
     var colStart = 0;
     board.resize();
-    board.createGliderGun(rowStart, colStart);
-   
+    //board.createGliderGun(rowStart, colStart);
+    board.createBeacon(rowStart, colStart);
     $("#theCanvas").click(function(event){
       board.toggle();
       board.fillByClick(event);

@@ -26,10 +26,7 @@ function GameOfLife(context, settings)
   
   if (this.settings.debug) 
   {
-    if (console)
-    {
-      console.log("Created a new GameOfLife object.");
-    }
+    console.log("Created a new GameOfLife object.");
   }
 }
  
@@ -344,6 +341,77 @@ GameOfLife.prototype.createGlider = function(row, column)
   this.board[row+2][column+2] = 1;
   this.board[row+1][column+2] = 1;
   this.board[row][column+2] = 1;
+    
+  if (this.settings.debug) 
+  {
+    console.log("Create a glider at " + row + ", " + column);
+  }
+    
+  return true;
+}
+  
+/**
+  * Create a small glider at the given coords.
+  * 
+  * @param row The row to start the glider at.
+  * @param column The column to start the glider at.
+  * 
+  * @return True if the glider was created.
+  */
+GameOfLife.prototype.createAcorn = function(row, column)
+{
+  // Check to make sure the glider will fit.
+  if (row+2 > this.board.rows || 
+      row < 0 ||
+      column+6 > this.board.columns ||
+      column < 0)
+  {
+    return false;
+  }
+    
+  this.board[row+3][column] = 1;
+  this.board[row+1][column+1] = 1;
+  this.board[row+3][column+1] = 1;
+  this.board[row+2][column+3] = 1;
+  this.board[row+3][column+4] = 1;
+  this.board[row+3][column+5] = 1;
+  this.board[row+3][column+6] = 1;
+    
+  if (this.settings.debug) 
+  {
+    console.log("Create a glider at " + row + ", " + column);
+  }
+    
+  return true;
+}
+
+/**
+  * Create a small glider at the given coords.
+  * 
+  * @param row The row to start the glider at.
+  * @param column The column to start the glider at.
+  * 
+  * @return True if the glider was created.
+  */
+GameOfLife.prototype.createBeacon = function(row, column)
+{
+  // Check to make sure the glider will fit.
+  if (row+3 > this.board.rows || 
+      row < 0 ||
+      column+3 > this.board.columns ||
+      column < 0)
+  {
+    return false;
+  }
+    
+  this.board[row][column] = 1;
+  this.board[row+1][column] = 1;
+  this.board[row][column+1] = 1;
+  this.board[row+1][column+1] = 1;
+  this.board[row+2][column+2] = 1;
+  this.board[row+3][column+2] = 1;
+  this.board[row+2][column+3] = 1;
+  this.board[row+3][column+3] = 1;
     
   if (this.settings.debug) 
   {
