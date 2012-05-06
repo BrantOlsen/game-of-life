@@ -318,6 +318,25 @@ GameOfLife.prototype.toggle = function () {
 }
 
 /**
+ * Check if the given parameters will fit in the current board's
+ * size.
+ * 
+ * @return True if the arguments will fit.
+ */
+GameOfLife.prototype.canFit = function(row, column, rowStretch, colStretch)
+{
+  if (row+rowStretch > this.board.rows || 
+      row < 0 ||
+      column+colStretch > this.board.columns ||
+      column < 0)
+  {
+    return false;
+  }
+  
+  return true;
+}
+
+/**
   * Create a small glider at the given coords.
   * 
   * @param row The row to start the glider at.
@@ -328,11 +347,8 @@ GameOfLife.prototype.toggle = function () {
 GameOfLife.prototype.createGlider = function(row, column)
 {
   // Check to make sure the glider will fit.
-  if (row+2 > this.board.rows || 
-    row < 0 ||
-    column+2 > this.board.columns ||
-    column < 0)
-    {
+  if (!this.canFit(row, column, 2, 2))
+  {
     return false;
   }
     
@@ -361,10 +377,7 @@ GameOfLife.prototype.createGlider = function(row, column)
 GameOfLife.prototype.createAcorn = function(row, column)
 {
   // Check to make sure the glider will fit.
-  if (row+2 > this.board.rows || 
-      row < 0 ||
-      column+6 > this.board.columns ||
-      column < 0)
+  if (!this.canFit(row, column, 2, 6))
   {
     return false;
   }
@@ -396,10 +409,7 @@ GameOfLife.prototype.createAcorn = function(row, column)
 GameOfLife.prototype.createBeacon = function(row, column)
 {
   // Check to make sure the glider will fit.
-  if (row+3 > this.board.rows || 
-      row < 0 ||
-      column+3 > this.board.columns ||
-      column < 0)
+  if (!this.canFit(row, column, 3, 3))
   {
     return false;
   }
@@ -432,11 +442,8 @@ GameOfLife.prototype.createBeacon = function(row, column)
 GameOfLife.prototype.createGliderGun = function(row, column)
 {
   // Check to make sure the glider will fit.
-  if (row+8 > this.board.rows || 
-    row < 0 ||
-    column+35 > this.board.columns ||
-    column < 0)
-    {
+  if (!this.canFit(row, column, 8, 35))
+  {
     return false;
   }
   
