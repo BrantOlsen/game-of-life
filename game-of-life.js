@@ -68,6 +68,9 @@ GameOfLife.prototype.resize = function()
   }
 }
   
+/**
+ * Draw an orange line from the start coordinates to end coordinates.
+ */
 GameOfLife.prototype.drawLine = function(xStart, yStart, xEnd, yEnd)
 {
   this.board.context.fillStyle = 'orange';
@@ -266,20 +269,17 @@ GameOfLife.prototype.update = function()
   */
 GameOfLife.prototype.start = function() 
 {
-  // Create a functon here to allow us to get the correct scope in the call
-  // to setInterval.
-  var u = function updateGOL()
-  {
-    u.param1.update(); 
-  }
-  u.param1 = this;
+  var self = this;
     
   var updateInterval = 500;
   if (this.settings.updateInterval)
   {
     updateInterval = this.settings.updateInterval;
   }
-  this.intervalID = setInterval(u, updateInterval);
+  
+  this.intervalID = setInterval(function() {
+    self.update();
+  }, updateInterval);
   
   if (this.settings.debug) 
   {
