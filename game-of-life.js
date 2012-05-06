@@ -500,6 +500,71 @@ GameOfLife.prototype.createGliderGun = function(row, column)
 }
 
 /**
+ * Create the F-pentomino pattern.
+ */
+GameOfLife.prototype.createF_Pentomino = function(row, column)
+{
+  if (!this.canFit(row, column, 2, 2))
+  {
+    return false;
+  }
+  
+  this.board[row+1][column] = 1;
+  this.board[row][column+1] = 1;
+  this.board[row+1][column+1] = 1;
+  this.board[row+2][column+1] = 1;
+  this.board[row][column+2] = 1;
+  
+  return true;
+}
+
+/**
+ * Create the 1 row gun listed on the wikipedia page.
+ */
+GameOfLife.prototype.create1RowGun = function(row, column)
+{
+  if (!this.canFit(row, column, 0, 38))
+  {
+    return false;
+  }
+  
+  this.board[row][column] = 1;
+  this.board[row][column+1] = 1;
+  this.board[row][column+2] = 1;
+  this.board[row][column+3] = 1;
+  this.board[row][column+4] = 1;
+  this.board[row][column+5] = 1;
+  this.board[row][column+6] = 1;
+  this.board[row][column+7] = 1;
+  
+  this.board[row][column+9] = 1;
+  this.board[row][column+10] = 1;
+  this.board[row][column+11] = 1;
+  this.board[row][column+12] = 1;
+  this.board[row][column+13] = 1;
+  
+  this.board[row][column+17] = 1;
+  this.board[row][column+18] = 1;
+  this.board[row][column+19] = 1;
+  
+  this.board[row][column+26] = 1;
+  this.board[row][column+27] = 1;
+  this.board[row][column+28] = 1;
+  this.board[row][column+29] = 1;
+  this.board[row][column+30] = 1;
+  this.board[row][column+31] = 1;
+  this.board[row][column+32] = 1;
+  
+  this.board[row][column+34] = 1;
+  this.board[row][column+35] = 1;
+  this.board[row][column+36] = 1;
+  this.board[row][column+37] = 1;
+  this.board[row][column+38] = 1;
+  
+  return true;
+}
+
+/**
  * Add a cell based on the x and y coordinates of the click. This
  * will also call fillCells.
  * 
